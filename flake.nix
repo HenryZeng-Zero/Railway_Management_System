@@ -21,7 +21,7 @@
         xmake
         clang-tools
         llvmPackages_18.clangUseLLVM
-        # wrapGAppsHook4
+        wrapGAppsHook4
       ];
       shellHook = ''
         unset LD
