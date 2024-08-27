@@ -2,6 +2,7 @@
 #define RK_ARRAY_H
 #include <stdlib.h>
 #include "rk_def.h"
+#include <glib-object.h>
 
 #ifndef RK_ARRAY_NO_DEFAULT_ITEM_NUMS
 #define RK_ARRAY_DEFAULT_ITEM_NUMS 20

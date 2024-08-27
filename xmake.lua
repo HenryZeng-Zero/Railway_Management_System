@@ -1,7 +1,7 @@
 add_rules("mode.debug", "mode.release")
 add_rules("plugin.compile_commands.autoupdate", {outputdir = ".vscode"})
 
-add_requires("libadwaita-1")
+add_requires("libadwaita-1","gobject-2.0")
 
 rule("ResCopy")
     after_build(function (target)
@@ -25,11 +25,22 @@ rule("ResCopy")
 
     end)
 
+target("rk-data")
+    set_kind("static")
+    set_languages("c11")
+    set_optimize("fastest")
+    add_packages("gobject-2.0")
+    add_includedirs("rk-data")
+    add_files("rk-data/**.c")
+
 target("Railway_Management_System")
     set_kind("binary")
     set_languages("c11")
     set_optimize("fastest")
     add_rules("ResCopy")
+
     add_packages("libadwaita-1")
-    add_includedirs("include")
+    add_deps("rk-data")
+    
+    add_includedirs("src","rk-data")
     add_files("src/**.c")
