@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.90.4 -->
+<interface>
+  <requires lib="gio" version="2.44"/>
+  <requires lib="gtk" version="4.12"/>
+  <requires lib="libadwaita" version="1.4"/>
+  <template class="RmsSplitData" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <property name="halign">center</property>
+        <property name="margin-bottom">10</property>
+        <property name="margin-top">10</property>
+        <property name="spacing">5</property>
+        <property name="valign">start</property>
+        <child>
+          <object class="GtkButton">
+            <child>
+              <object class="AdwButtonContent">
+                <property name="icon-name">list-add-symbolic</property>
+                <property name="label">增加数据</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton">
+            <child>
+              <object class="AdwButtonContent">
+                <property name="icon-name">list-remove-symbolic</property>
+                <property name="label">删除数据</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkColumnView" id="page_1_col_view">
+        <property name="margin-end">10</property>
+        <property name="margin-start">10</property>
+        <property name="model">
+          <object class="GtkSingleSelection">
+            <property name="model">
+              <object class="GtkSortListModel">
+                <property name="model">
+                  <object class="GListStore" id="page_1_col_view_dataflow"/>
+                </property>
+                <property name="sorter">
+                  <object class="GtkColumnViewSorter"/>
+                </property>
+              </object>
+            </property>
+          </object>
+        </property>
+        <property name="show-column-separators">True</property>
+        <property name="show-row-separators">True</property>
+        <child>
+          <object class="GtkColumnViewColumn">
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"/>
+            </property>
+            <property name="title">列车名称</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkColumnViewColumn">
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"/>
+            </property>
+            <property name="title">出发地点</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkColumnViewColumn">
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"/>
+            </property>
+            <property name="title">到达地点</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkColumnViewColumn">
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"/>
+            </property>
+            <property name="title">出发时间</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkColumnViewColumn">
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"/>
+            </property>
+            <property name="title">到达时间</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkColumnViewColumn">
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"/>
+            </property>
+            <property name="title">预计用时</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkColumnViewColumn">
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"/>
+            </property>
+            <property name="title">初始票数</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkColumnViewColumn">
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"/>
+            </property>
+            <property name="title">剩余票数</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkColumnViewColumn">
+            <property name="factory">
+              <object class="GtkSignalListItemFactory"/>
+            </property>
+            <property name="title">票价</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
