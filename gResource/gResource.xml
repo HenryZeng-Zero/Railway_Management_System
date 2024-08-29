@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/rikki/tools/rms">
+    <file compressed="true">rms-window.ui</file>
+    <file compressed="true">rms-split-data.ui</file>
+  </gresource>
+</gresources>
