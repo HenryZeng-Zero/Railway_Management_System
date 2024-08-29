@@ -10,3 +10,7 @@ build/
 
 # NixOS direnv Cache
 .direnv/
+
+# gResource 
+gResource.c
+gResource.h
