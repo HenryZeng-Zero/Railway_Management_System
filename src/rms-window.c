@@ -1,7 +1,7 @@
 #include "rms-window.h"
 #include "rms-page-train.h"
 #include "rms-page-people.h"
-#include "rms-page-search.h"
+
 #include "sqlite3.h"
 
 struct _RmsWindow
@@ -42,7 +42,6 @@ rms_window_page_split_switch_page_##num(RmsWindow *self) \
 
 rms_window_page_split_switch_gen(0)
 rms_window_page_split_switch_gen(1)
-rms_window_page_split_switch_gen(2)
 
 static void
 rms_window_constructed(GObject *gobject){
@@ -66,15 +65,15 @@ rms_window_constructed(GObject *gobject){
                             self);
 
     g_signal_connect_swapped(self->search_info, "clicked",
-                            G_CALLBACK(rms_window_page_split_switch_page_2),
+                            G_CALLBACK(rms_window_page_split_switch_page_1),
                             self);
 
     g_signal_connect_swapped(self->save_info, "clicked",
-                            G_CALLBACK(rms_window_page_split_switch_page_2),
+                            G_CALLBACK(rms_window_page_split_switch_page_1),
                             self);
 
     g_signal_connect_swapped(self->load_info, "clicked",
-                            G_CALLBACK(rms_window_page_split_switch_page_2),
+                            G_CALLBACK(rms_window_page_split_switch_page_1),
                             self);
 }
 
@@ -85,9 +84,9 @@ rms_window_init (RmsWindow *self)
 {
     gtk_widget_init_template (GTK_WIDGET (self));
 
-    GtkWidget* (*page_new[3])() = {rms_page_train_new, rms_page_people_new, rms_page_search_new};
-    gchar* page_label[3] = {"班次管理", "乘客管理", "查询信息"};
-    for(int i = 0; i < 3; i++){
+    GtkWidget* (*page_new[3])() = {rms_page_train_new, rms_page_people_new};
+    gchar* page_label[3] = {"班次管理", "乘客管理"};
+    for(int i = 0; i < 2; i++){
         GtkWidget* page = page_new[i]();
         GtkWidget* label = gtk_label_new(page_label[i]);
         self->page_data[i] = page;
