@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/rikki/tools/rms">
     <file compressed="true">rms-window.ui</file>
-    <file compressed="true">rms-split-data.ui</file>
+    <file compressed="true">rms-page-train.ui</file>
+    <file compressed="true">rms-page-people.ui</file>
   </gresource>
 </gresources>

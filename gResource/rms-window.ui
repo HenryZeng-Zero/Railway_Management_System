@@ -31,7 +31,7 @@
                   <object class="GtkButton" id="train_mamage">
                     <property name="css-classes">pill</property>
                     <property name="halign">center</property>
-                    <property name="label">管理班次</property>
+                    <property name="label">班次管理</property>
                     <property name="margin-bottom">10</property>
                     <property name="margin-top">28</property>
                   </object>
@@ -40,7 +40,7 @@
                   <object class="GtkButton" id="people_mamage">
                     <property name="css-classes">pill</property>
                     <property name="halign">center</property>
-                    <property name="label">管理乘客</property>
+                    <property name="label">乘客管理</property>
                     <property name="margin-bottom">10</property>
                   </object>
                 </child>
@@ -48,7 +48,7 @@
                   <object class="GtkButton" id="search_info">
                     <property name="css-classes">pill</property>
                     <property name="halign">center</property>
-                    <property name="label">搜索信息</property>
+                    <property name="label">查询信息</property>
                     <property name="margin-bottom">10</property>
                   </object>
                 </child>
