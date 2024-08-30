@@ -1,4 +1,8 @@
 #include "rms-window.h"
+#include "rms-page-train.h"
+#include "rms-page-people.h"
+#include "rms-page-search.h"
+#include "sqlite3.h"
 
 struct _RmsWindow
 {
@@ -13,21 +17,82 @@ struct _RmsWindow
     GtkButton* load_info;
 
     GtkNotebook* page_split;
+    GtkWidget* page_data[3];
+
+    sqlite3* db;
 };
 
 G_DEFINE_TYPE (RmsWindow, rms_window, ADW_TYPE_APPLICATION_WINDOW)
 
+/* part: constructed */
 
 static void
-rms_test(GObject *gobject){
-    g_print("test");
+rms_window_sidebar_split_view_collapse(RmsWindow *self)
+{
+    gboolean status = adw_overlay_split_view_get_show_sidebar(self->split_view);
+    adw_overlay_split_view_set_show_sidebar(self->split_view, !status);
 }
+
+#define rms_window_page_split_switch_gen(num) \
+static void \
+rms_window_page_split_switch_page_##num(RmsWindow *self) \
+{ \
+    gtk_notebook_set_current_page(self->page_split, num); \
+} 
+
+rms_window_page_split_switch_gen(0)
+rms_window_page_split_switch_gen(1)
+rms_window_page_split_switch_gen(2)
+
+static void
+rms_window_constructed(GObject *gobject){
+    RmsWindow *self = RMS_WINDOW(gobject);
+
+    /* 调用父类<加载完成后初始化>函数 */
+    G_OBJECT_CLASS(rms_window_parent_class)->constructed(gobject);
+
+    /* sidebar collapse */
+    g_signal_connect_swapped(self->sidebar_show, "toggled",
+                            G_CALLBACK(rms_window_sidebar_split_view_collapse),
+                            self);
+
+    /* sidebar button */
+    g_signal_connect_swapped(self->train_mamage, "clicked",
+                            G_CALLBACK(rms_window_page_split_switch_page_0),
+                            self);
+
+    g_signal_connect_swapped(self->people_mamage, "clicked",
+                            G_CALLBACK(rms_window_page_split_switch_page_1),
+                            self);
+
+    g_signal_connect_swapped(self->search_info, "clicked",
+                            G_CALLBACK(rms_window_page_split_switch_page_2),
+                            self);
+
+    g_signal_connect_swapped(self->save_info, "clicked",
+                            G_CALLBACK(rms_window_page_split_switch_page_2),
+                            self);
+
+    g_signal_connect_swapped(self->load_info, "clicked",
+                            G_CALLBACK(rms_window_page_split_switch_page_2),
+                            self);
+}
+
+/* End */
 
 static void
 rms_window_init (RmsWindow *self)
 {
     gtk_widget_init_template (GTK_WIDGET (self));
-    //g_signal_connect(self->sidebar_show, "clicked", G_CALLBACK (rms_test), NULL);
+
+    GtkWidget* (*page_new[3])() = {rms_page_train_new, rms_page_people_new, rms_page_search_new};
+    gchar* page_label[3] = {"班次管理", "乘客管理", "查询信息"};
+    for(int i = 0; i < 3; i++){
+        GtkWidget* page = page_new[i]();
+        GtkWidget* label = gtk_label_new(page_label[i]);
+        self->page_data[i] = page;
+        gtk_notebook_append_page(self->page_split, page, label);
+    }
 }
 
 static void
@@ -41,19 +106,23 @@ rms_window_dispose (GObject *gobject)
 static void
 rms_window_class_init (RmsWindowClass *klass)
 {
-    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+    GObjectClass *oclass = G_OBJECT_CLASS (klass);
+    GtkWidgetClass *wclass = GTK_WIDGET_CLASS (klass);
+    GtkWindowClass *winclass = GTK_WINDOW_CLASS (klass);
 
-    gtk_widget_class_set_template_from_resource (widget_class,
+    gtk_widget_class_set_template_from_resource (wclass,
                                                "/rikki/tools/rms/rms-window.ui");
 
-    gtk_widget_class_bind_template_child (widget_class, RmsWindow, sidebar_show);
-    gtk_widget_class_bind_template_child (widget_class, RmsWindow, split_view);
-    gtk_widget_class_bind_template_child (widget_class, RmsWindow, train_mamage);
-    gtk_widget_class_bind_template_child (widget_class, RmsWindow, people_mamage);
-    gtk_widget_class_bind_template_child (widget_class, RmsWindow, search_info);
-    gtk_widget_class_bind_template_child (widget_class, RmsWindow, save_info);
-    gtk_widget_class_bind_template_child (widget_class, RmsWindow, load_info);
-    gtk_widget_class_bind_template_child (widget_class, RmsWindow, page_split);
+    gtk_widget_class_bind_template_child (wclass, RmsWindow, sidebar_show);
+    gtk_widget_class_bind_template_child (wclass, RmsWindow, split_view);
+    gtk_widget_class_bind_template_child (wclass, RmsWindow, train_mamage);
+    gtk_widget_class_bind_template_child (wclass, RmsWindow, people_mamage);
+    gtk_widget_class_bind_template_child (wclass, RmsWindow, search_info);
+    gtk_widget_class_bind_template_child (wclass, RmsWindow, save_info);
+    gtk_widget_class_bind_template_child (wclass, RmsWindow, load_info);
+    gtk_widget_class_bind_template_child (wclass, RmsWindow, page_split);
+
+    oclass->constructed = rms_window_constructed;
 }
 
 
