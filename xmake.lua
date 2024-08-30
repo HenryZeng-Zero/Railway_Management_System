@@ -3,10 +3,10 @@ add_rules("plugin.compile_commands.autoupdate", {outputdir = ".vscode"})
 
 add_requires("libadwaita-1","gobject-2.0","gio-2.0")
 
-add_includedirs("gResource","src","rk-data")
+add_includedirs("gResource","src","rk-data","sqlite3")
 
 target("gResource")
-    set_kind("static")
+    set_kind("shared")
     set_languages("c11")
     set_optimize("fastest")
     add_files("gResource/**.c")
@@ -20,11 +20,18 @@ target("gResource")
     end)
 
 target("rk-data")
-    set_kind("static")
+    set_kind("shared")
     set_languages("c11")
     set_optimize("fastest")
     add_packages("gobject-2.0")
     add_files("rk-data/**.c")
+
+target("sqlite3")
+    set_kind("shared")
+    set_languages("c11")
+    set_optimize("fastest")
+    set_warnings("none")
+    add_files("sqlite3/**.c")
 
 target("Railway_Management_System")
     set_kind("binary")
