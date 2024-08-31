@@ -1,5 +1,10 @@
 # 地铁管理系统
 
+# Todo
+- [ ] 尝试实现一个数据模型
+- [ ] 尝试将数据模型绑定到 List
+- [ ] 尝试建立自定义dialog
+
 # 异常分析
 ## NixOS 下xmake无法链接程序
 ![LD error](./README_RES/ld_error.jpg)
