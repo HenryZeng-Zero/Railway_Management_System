@@ -56,8 +56,6 @@
 	(2,31,"GtkCustomSorter",None,29,None,None,None,None,None,None),
 	(2,32,"GtkButton","del_data",2,None,None,None,2,None,None),
 	(2,33,"AdwButtonContent",None,32,None,None,None,None,None,None),
-	(2,34,"GtkButton","search_data",2,None,None,None,3,None,None),
-	(2,35,"AdwButtonContent",None,34,None,None,None,None,None,None),
 	(5,1,"GtkBox","RmsPagePeople",None,None,None,None,None,None,None),
 	(5,2,"GtkBox",None,1,None,None,None,None,None,None),
 	(5,7,"GtkColumnView","column_view",1,None,None,None,1,None,None),
@@ -75,11 +73,9 @@
 	(5,19,"GtkCustomSorter",None,17,None,None,None,None,None,None),
 	(5,20,"GtkButton","add_data",2,None,None,None,2,None,None),
 	(5,21,"AdwButtonContent",None,20,None,None,None,None,None,None),
-	(5,22,"GtkButton","del_data",2,None,None,None,3,None,None),
-	(5,23,"AdwButtonContent",None,22,None,None,None,None,None,None),
 	(5,24,"GtkButton","set_data",2,None,None,None,4,None,None),
 	(5,25,"AdwButtonContent",None,24,None,None,None,None,None,None),
-	(5,26,"GtkButton","search_data",2,None,None,None,3,None,None),
+	(5,26,"GtkButton","del_data",2,None,None,None,2,None,None),
 	(5,27,"AdwButtonContent",None,26,None,None,None,None,None,None)
   </object>
   <object_property>
@@ -169,8 +165,6 @@
 	(2,29,"GtkColumnViewColumn","title","票价",None,None,None,None,None,None,None,None,None),
 	(2,33,"AdwButtonContent","icon-name","list-remove-symbolic",None,None,None,None,None,None,None,None,None),
 	(2,33,"AdwButtonContent","label","删除数据",None,None,None,None,None,None,None,None,None),
-	(2,35,"AdwButtonContent","icon-name","preferences-system-search-symbolic",None,None,None,None,None,None,None,None,None),
-	(2,35,"AdwButtonContent","label","搜索数据",None,None,None,None,None,None,None,None,None),
 	(5,1,"GtkOrientable","orientation","vertical",None,None,None,None,None,None,None,None,None),
 	(5,2,"GtkBox","spacing","5",None,None,None,None,None,None,None,None,None),
 	(5,2,"GtkWidget","halign","center",None,None,None,None,None,None,None,None,None),
@@ -199,11 +193,9 @@
 	(5,17,"GtkColumnViewColumn","title","身份信息",None,None,None,None,None,None,None,None,None),
 	(5,21,"AdwButtonContent","icon-name","list-add-symbolic",None,None,None,None,None,None,None,None,None),
 	(5,21,"AdwButtonContent","label","增加数据",None,None,None,None,None,None,None,None,None),
-	(5,23,"AdwButtonContent","icon-name","list-remove-symbolic",None,None,None,None,None,None,None,None,None),
-	(5,23,"AdwButtonContent","label","删除数据",None,None,None,None,None,None,None,None,None),
 	(5,25,"AdwButtonContent","icon-name","error-correct-symbolic",None,None,None,None,None,None,None,None,None),
 	(5,25,"AdwButtonContent","label","修改数据",None,None,None,None,None,None,None,None,None),
-	(5,27,"AdwButtonContent","icon-name","preferences-system-search-symbolic",None,None,None,None,None,None,None,None,None),
-	(5,27,"AdwButtonContent","label","搜索数据",None,None,None,None,None,None,None,None,None)
+	(5,27,"AdwButtonContent","icon-name","list-remove-symbolic",None,None,None,None,None,None,None,None,None),
+	(5,27,"AdwButtonContent","label","删除数据",None,None,None,None,None,None,None,None,None)
   </object_property>
 </cambalache-project>
