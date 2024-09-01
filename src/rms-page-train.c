@@ -110,6 +110,9 @@ rms_page_train_class_init (RmsPageTrainClass *klass)
                                 G_PARAM_STATIC_STRINGS |
                                 G_PARAM_EXPLICIT_NOTIFY;
 
+    oclass->constructed = rms_page_train_constructed;
+    oclass->dispose = rms_page_train_dispose;
+
     oclass->set_property = rms_page_train_set_property;
     oclass->get_property = rms_page_train_get_property;
 
@@ -143,8 +146,6 @@ rms_page_train_class_init (RmsPageTrainClass *klass)
     gtk_widget_class_bind_template_child (wclass, RmsPageTrain, col6);
     gtk_widget_class_bind_template_child (wclass, RmsPageTrain, col7);
     gtk_widget_class_bind_template_child (wclass, RmsPageTrain, col8);
-
-    oclass->constructed = rms_page_train_constructed;
 }
 
 /* public method */
