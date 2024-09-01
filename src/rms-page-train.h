@@ -12,4 +12,10 @@ G_DECLARE_FINAL_TYPE (RmsPageTrain, rms_page_train, RMS, PAGE_TRAIN, GtkBox)
 GtkWidget *
 rms_page_train_new();
 
+void
+rms_page_train_set_root_window(RmsPageTrain *self, GtkWindow *root_window);
+
+GtkWindow*
+rms_page_train_get_root_window(RmsPageTrain *self);
+
 G_END_DECLS

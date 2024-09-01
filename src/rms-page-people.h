@@ -12,4 +12,10 @@ G_DECLARE_FINAL_TYPE (RmsPagePeople, rms_page_people, RMS, PAGE_PEOPLE, GtkBox)
 GtkWidget *
 rms_page_people_new();
 
+void
+rms_page_people_set_root_window(RmsPagePeople *self, GtkWindow *root_window);
+
+GtkWindow*
+rms_page_people_get_root_window(RmsPagePeople *self);
+
 G_END_DECLS
