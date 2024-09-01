@@ -99,16 +99,14 @@ rms_window_init (RmsWindow *self)
             .label = "乘客管理"
         }
     };
-
-    GtkApplication* app = gtk_window_get_application(GTK_WINDOW(self));
     
     for(int i = 0; i < 2; i++){
         GtkWidget* page = pages[i].page_new();
         GtkWidget* label = gtk_label_new(pages[i].label);
         
-        g_object_set(page, "root-window", app, NULL);
+        g_object_set(page, "root-window", self, NULL);
         self->page_data[i] = page;
-        
+
         gtk_notebook_append_page(self->page_split, page, label);
     }
 }
