@@ -17,7 +17,7 @@ struct _RmsWindow
     GtkButton* load_info;
 
     GtkNotebook* page_split;
-    GtkWidget* page_data[3];
+    GtkWidget* page_data[2];
 
     sqlite3* db;
 };
@@ -79,16 +79,30 @@ rms_window_constructed(GObject *gobject){
 
 /* End */
 
+typedef struct {
+    GtkWidget* (*page_new)();
+    gchar* label;
+} page_bind;
+
 static void
 rms_window_init (RmsWindow *self)
 {
     gtk_widget_init_template (GTK_WIDGET (self));
 
-    GtkWidget* (*page_new[3])() = {rms_page_train_new, rms_page_people_new};
-    gchar* page_label[3] = {"班次管理", "乘客管理"};
+    page_bind pages[2] = {
+        {
+            .page_new = rms_page_train_new,
+            .label = "班次管理"
+        },
+        {
+            .page_new = rms_page_people_new,
+            .label = "乘客管理"
+        }
+    };
+
     for(int i = 0; i < 2; i++){
-        GtkWidget* page = page_new[i]();
-        GtkWidget* label = gtk_label_new(page_label[i]);
+        GtkWidget* page = pages[i].page_new();
+        GtkWidget* label = gtk_label_new(pages[i].label);
         self->page_data[i] = page;
         gtk_notebook_append_page(self->page_split, page, label);
     }
