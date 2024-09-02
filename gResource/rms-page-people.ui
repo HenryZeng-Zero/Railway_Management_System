@@ -52,10 +52,10 @@
         <property name="show-row-separators">True</property>
         <child>
           <object class="GtkColumnViewColumn" id="col1">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
-            <property name="resizable">True</property>
             <property name="sorter">
               <object class="GtkCustomSorter"/>
             </property>
@@ -64,10 +64,10 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col2">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
-            <property name="resizable">True</property>
             <property name="sorter">
               <object class="GtkCustomSorter"/>
             </property>
@@ -76,10 +76,10 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col3">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
-            <property name="resizable">True</property>
             <property name="sorter">
               <object class="GtkCustomSorter"/>
             </property>
@@ -88,10 +88,10 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col4">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
-            <property name="resizable">True</property>
             <property name="sorter">
               <object class="GtkCustomSorter"/>
             </property>

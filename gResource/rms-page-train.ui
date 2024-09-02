@@ -52,6 +52,7 @@
         <property name="show-row-separators">True</property>
         <child>
           <object class="GtkColumnViewColumn" id="col1">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
@@ -64,6 +65,7 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col2">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
@@ -76,6 +78,7 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col3">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
@@ -88,6 +91,7 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col4">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
@@ -100,6 +104,7 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col5">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
@@ -112,6 +117,7 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col6">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
@@ -124,6 +130,7 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col7">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
@@ -136,6 +143,7 @@
         </child>
         <child>
           <object class="GtkColumnViewColumn" id="col8">
+            <property name="expand">True</property>
             <property name="factory">
               <object class="GtkSignalListItemFactory"/>
             </property>
