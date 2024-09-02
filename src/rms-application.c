@@ -16,7 +16,7 @@ rms_application_activate (GApplication *app)
     GtkWindow *window = rms_window_new(GTK_APPLICATION (app));
     
     gtk_window_set_title(window, APPLICATION_NAME);
-
+    gtk_window_set_default_size(window, 1200, 600);
     gtk_window_present (window);
 }
 
