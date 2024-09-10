@@ -24,6 +24,6 @@ model_people_new(const char *name,
                 const char *sign);
 
 const char* 
-model_people_get_ById(ModelPeople* self,enum ModelPeopleId id);
+model_people_get_ById(ModelPeople* self,int id);
 
 G_END_DECLS

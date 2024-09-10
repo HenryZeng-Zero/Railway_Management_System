@@ -1,6 +1,7 @@
 #include "rms-page-people.h"
+#include "model-people.h"
+#include "rms-column-view-helper.h"
 
-#define GtkColumnViewColumnN(n) GtkColumnViewColumn* col##n;
 struct _RmsPagePeople
 {
     GtkBox parent_type;
@@ -11,12 +12,16 @@ struct _RmsPagePeople
     GtkButton* set_data;
     GtkButton* del_data;
 
-    GtkColumnView* column_view;
-    GtkColumnViewColumnN(1)
-    GtkColumnViewColumnN(2)
-    GtkColumnViewColumnN(3)
-    GtkColumnViewColumnN(4)
+    
 };
+
+/* part: rms_column_view bind func */
+
+rms_column_view_bind_func_new(rms_col_get_name, MODEL_PEOPLE_NAME, model_people_get_ById, MODEL_PEOPLE)
+rms_column_view_bind_func_new(rms_col_get_train, MODEL_PEOPLE_TRAIN, model_people_get_ById, MODEL_PEOPLE)
+rms_column_view_bind_func_new(rms_col_get_to, MODEL_PEOPLE_TO, model_people_get_ById, MODEL_PEOPLE)
+rms_column_view_bind_func_new(rms_col_get_sign, MODEL_PEOPLE_SIGN, model_people_get_ById, MODEL_PEOPLE)
+
 
 G_DEFINE_TYPE (RmsPagePeople, rms_page_people, GTK_TYPE_BOX)
 
@@ -68,7 +73,54 @@ rms_page_train_get_property(GObject *object,
     }
 }
 
+/* test */
+static void
+rms_page_people_messgb(GtkWindow *parent)
+{
+    GtkWidget *dialog;
+
+    dialog = adw_message_dialog_new (parent, "Replace File?", NULL);
+
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
+
+    adw_message_dialog_format_body (ADW_MESSAGE_DIALOG (dialog),
+                                    "A file named “%s” already exists. Do you want to replace it?",
+                                    "ssssss");
+
+    adw_message_dialog_add_responses (ADW_MESSAGE_DIALOG (dialog),
+                                    "cancel",  "_Cancel",
+                                    "replace", "_Replace",
+                                    NULL);
+
+    adw_message_dialog_set_response_appearance (ADW_MESSAGE_DIALOG (dialog), "replace", ADW_RESPONSE_DESTRUCTIVE);
+
+    adw_message_dialog_set_default_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
+    adw_message_dialog_set_close_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
+
+    gtk_window_present (GTK_WINDOW (dialog));
+}
+
+
 /* part: constructed */
+
+
+GListModel * create_capital_model(void)
+{
+    GListStore *store = g_list_store_new(G_TYPE_OBJECT);
+    g_list_store_append(store, model_people_new("Washington,D.C.","USA","1790","712,816"));
+    g_list_store_append(store, model_people_new("London","Britain","43","8,799,800"));
+    g_list_store_append(store, model_people_new("Paris","France","3rd c. BC","2,161,000"));
+    g_list_store_append(store, model_people_new("Berlin","Germany","13th century","3,850,809"));
+    g_list_store_append(store, model_people_new("Rome","Italy","753 BC","2,860,009"));
+    return G_LIST_MODEL(store);
+}
+
+static void 
+setup_cb(GtkSignalListItemFactory *factory,GObject *listitem)
+{
+    GtkWidget *label =gtk_label_new(NULL);
+    gtk_list_item_set_child(GTK_LIST_ITEM(listitem),label);
+}
 
 static void
 rms_page_people_constructed(GObject *gobject){
@@ -76,6 +128,27 @@ rms_page_people_constructed(GObject *gobject){
 
     /* 调用父类<加载完成后初始化>函数 */
     G_OBJECT_CLASS(rms_page_people_parent_class)->constructed(gobject);
+
+    GListModel *model;
+    GtkSingleSelection *selection;
+
+    model = create_capital_model();
+    selection = gtk_single_selection_new(G_LIST_MODEL(model));
+    gtk_single_selection_set_autoselect(selection,TRUE);
+
+    gtk_column_view_set_model(self->column_view, GTK_SELECTION_MODEL(selection));
+
+    
+
+    for (int i = 0; i<4; i++) {
+        g_print("pointer: %p\n",self->columns.col[i]);
+        GtkColumnViewColumn* col_item = rms_column_view_get_col(self,columns,i);
+        GtkListItemFactory* factory = gtk_column_view_column_get_factory(col_item);
+
+        g_signal_connect(factory, "setup", G_CALLBACK(setup_cb),NULL);
+        g_signal_connect(factory, "bind", G_CALLBACK(rms_column_view_get_func(self, columns, i)),NULL);
+    }
+
 }
 
 /* End */
@@ -84,7 +157,7 @@ static void
 rms_page_people_init (RmsPagePeople *self)
 {
     gtk_widget_init_template (GTK_WIDGET (self));
-    //g_signal_connect(self->sidebar_show, "clicked", G_CALLBACK (rms_test), NULL);
+
 }
 
 static void
@@ -132,11 +205,6 @@ rms_page_people_class_init (RmsPagePeopleClass *klass)
     gtk_widget_class_bind_template_child (wclass, RmsPagePeople, set_data);
     gtk_widget_class_bind_template_child (wclass, RmsPagePeople, del_data);
 
-    gtk_widget_class_bind_template_child (wclass, RmsPagePeople, column_view);
-    gtk_widget_class_bind_template_child (wclass, RmsPagePeople, col1);
-    gtk_widget_class_bind_template_child (wclass, RmsPagePeople, col2);
-    gtk_widget_class_bind_template_child (wclass, RmsPagePeople, col3);
-    gtk_widget_class_bind_template_child (wclass, RmsPagePeople, col4);
 }
 
 /* public method */

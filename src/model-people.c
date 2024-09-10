@@ -42,7 +42,7 @@ ModelPeople * model_people_new(const char *name,
 }
 
 const char* 
-model_people_get_ById(ModelPeople* self,enum ModelPeopleId id)
+model_people_get_ById(ModelPeople* self,int id)
 {
     switch (id) {
         case MODEL_PEOPLE_NAME:
