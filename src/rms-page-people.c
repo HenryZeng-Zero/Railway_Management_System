@@ -1,6 +1,6 @@
 #include "rms-page-people.h"
 #include "model-people.h"
-#include "rms-column-view-helper.h"
+#include "rms-col-view-helper.h"
 
 struct _RmsPagePeople
 {
@@ -12,20 +12,14 @@ struct _RmsPagePeople
     GtkButton* set_data;
     GtkButton* del_data;
 
-    
+    GtkColumnView* column_view;
+    GListModel *model;
+    GtkSingleSelection *selection;
+    define_bind_funcList(bind,4)
+
 };
 
-/* part: rms_column_view bind func */
-
-rms_column_view_bind_func_new(rms_col_get_name, MODEL_PEOPLE_NAME, model_people_get_ById, MODEL_PEOPLE)
-rms_column_view_bind_func_new(rms_col_get_train, MODEL_PEOPLE_TRAIN, model_people_get_ById, MODEL_PEOPLE)
-rms_column_view_bind_func_new(rms_col_get_to, MODEL_PEOPLE_TO, model_people_get_ById, MODEL_PEOPLE)
-rms_column_view_bind_func_new(rms_col_get_sign, MODEL_PEOPLE_SIGN, model_people_get_ById, MODEL_PEOPLE)
-
-
 G_DEFINE_TYPE (RmsPagePeople, rms_page_people, GTK_TYPE_BOX)
-
-/* part: properities */
 
 enum properity_type
 {
@@ -73,45 +67,91 @@ rms_page_train_get_property(GObject *object,
     }
 }
 
-/* test */
+// def create_advanced_dialog(*_args):
+//     dialog = Adw.AlertDialog(
+//         heading="Login",
+//         body="A valid password is needed to continue",
+//         close_response="cancel",
+//     )
+
+//     dialog.add_response("cancel", "Cancel")
+//     dialog.add_response("login", "Login")
+
+//     # Use SUGGESTED appearance to mark important responses such as the affirmative action
+//     dialog.set_response_appearance("login", Adw.ResponseAppearance.SUGGESTED)
+
+//     entry = Gtk.PasswordEntry(show_peek_icon=True)
+//     dialog.set_extra_child(entry)
+
+//     dialog.choose(workbench.window, None, on_response_selected_advanced)
+
+// def on_response_selected_advanced(_dialog, task):
+//     response = _dialog.choose_finish(task)
+//     entry = _dialog.get_extra_child()
+//     if response == "login":
+//         print(f'Selected "{response}" response with password "{entry.get_text()}"')
+//     else:
+//         print(f'Selected "{response}" response.')
+
 static void
-rms_page_people_messgb(GtkWindow *parent)
+rms_page_people_add_data_choose(GObject* dialog, GAsyncResult* result,gpointer user_data)
 {
-    GtkWidget *dialog;
+    RmsPagePeople* self = RMS_PAGE_PEOPLE(user_data);
+    GtkEntry *entry;
+    const char* response;
+    GtkEntryBuffer* buffer;
+    const char* str;
+    char* strs[4][30];
+    ModelPeople* item;
 
-    dialog = adw_message_dialog_new (parent, "Replace File?", NULL);
+    response = adw_alert_dialog_choose_finish(ADW_ALERT_DIALOG(dialog), result);
+    entry = GTK_ENTRY(adw_alert_dialog_get_extra_child(ADW_ALERT_DIALOG(dialog)));
+    buffer = gtk_entry_get_buffer(entry);
+    str = gtk_entry_buffer_get_text(buffer);
 
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
-
-    adw_message_dialog_format_body (ADW_MESSAGE_DIALOG (dialog),
-                                    "A file named “%s” already exists. Do you want to replace it?",
-                                    "ssssss");
-
-    adw_message_dialog_add_responses (ADW_MESSAGE_DIALOG (dialog),
-                                    "cancel",  "_Cancel",
-                                    "replace", "_Replace",
-                                    NULL);
-
-    adw_message_dialog_set_response_appearance (ADW_MESSAGE_DIALOG (dialog), "replace", ADW_RESPONSE_DESTRUCTIVE);
-
-    adw_message_dialog_set_default_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
-    adw_message_dialog_set_close_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
-
-    gtk_window_present (GTK_WINDOW (dialog));
+    if(strcmp(response, "select") == 0){
+        for (int index; index < strlen(str); index++) {
+            
+        }
+        item = model_people_new();
+        g_list_store_append(G_LIST_STORE(self->model), );
+    } 
 }
 
+static void
+rms_page_people_add_data(GtkWidget *self)
+{
+    AdwDialog *dialog;
+    GtkEntry *entry;
+    
+    dialog = adw_alert_dialog_new("增加记录", "在如下位置填写记录，使用逗号隔开。");
+    entry = GTK_ENTRY(gtk_entry_new());
 
-/* part: constructed */
+    adw_alert_dialog_set_extra_child(ADW_ALERT_DIALOG(dialog), GTK_WIDGET(entry));
 
+    adw_alert_dialog_add_response(ADW_ALERT_DIALOG(dialog), "cancel", "取消");
+    adw_alert_dialog_add_response(ADW_ALERT_DIALOG(dialog), "select", "确认");
+
+    adw_alert_dialog_set_close_response (ADW_ALERT_DIALOG (dialog), "cancel");
+    adw_alert_dialog_set_response_appearance( ADW_ALERT_DIALOG(dialog), 
+                                            "select",ADW_RESPONSE_SUGGESTED);
+
+    adw_alert_dialog_choose(ADW_ALERT_DIALOG(dialog), 
+                            GTK_WIDGET(window_main), 
+                            NULL, 
+                           rms_page_people_add_data_choose, self);
+}
 
 GListModel * create_capital_model(void)
 {
     GListStore *store = g_list_store_new(G_TYPE_OBJECT);
+    
     g_list_store_append(store, model_people_new("Washington,D.C.","USA","1790","712,816"));
     g_list_store_append(store, model_people_new("London","Britain","43","8,799,800"));
     g_list_store_append(store, model_people_new("Paris","France","3rd c. BC","2,161,000"));
     g_list_store_append(store, model_people_new("Berlin","Germany","13th century","3,850,809"));
     g_list_store_append(store, model_people_new("Rome","Italy","753 BC","2,860,009"));
+
     return G_LIST_MODEL(store);
 }
 
@@ -122,6 +162,36 @@ setup_cb(GtkSignalListItemFactory *factory,GObject *listitem)
     gtk_list_item_set_child(GTK_LIST_ITEM(listitem),label);
 }
 
+bind_type_cb(model_people_get_ById,MODEL_PEOPLE,MODEL_PEOPLE_NAME)
+bind_type_cb(model_people_get_ById,MODEL_PEOPLE,MODEL_PEOPLE_TRAIN)
+bind_type_cb(model_people_get_ById,MODEL_PEOPLE,MODEL_PEOPLE_TO)
+bind_type_cb(model_people_get_ById,MODEL_PEOPLE,MODEL_PEOPLE_SIGN)
+
+
+static void
+rms_page_people_del_data(RmsPagePeople* self)
+{
+    gint id = gtk_single_selection_get_selected(self->selection);
+    if(id > -1){
+        // id = -1 -> No Selection
+        g_list_store_remove(G_LIST_STORE(self->model), id);
+    }
+}
+
+static void
+rms_page_people_init (RmsPagePeople *self)
+{
+    gtk_widget_init_template (GTK_WIDGET (self));
+    link_type_cb(self->bind, MODEL_PEOPLE_NAME)
+    link_type_cb(self->bind, MODEL_PEOPLE_TRAIN)
+    link_type_cb(self->bind, MODEL_PEOPLE_TO)
+    link_type_cb(self->bind, MODEL_PEOPLE_SIGN)
+
+    g_signal_connect_swapped(self->del_data, "clicked", G_CALLBACK(rms_page_people_del_data),self);
+    g_signal_connect_swapped(self->add_data, "clicked", G_CALLBACK(rms_page_people_add_data),self);
+    
+}
+
 static void
 rms_page_people_constructed(GObject *gobject){
     RmsPagePeople *self = RMS_PAGE_PEOPLE(gobject);
@@ -129,34 +199,26 @@ rms_page_people_constructed(GObject *gobject){
     /* 调用父类<加载完成后初始化>函数 */
     G_OBJECT_CLASS(rms_page_people_parent_class)->constructed(gobject);
 
-    GListModel *model;
-    GtkSingleSelection *selection;
-
-    model = create_capital_model();
-    selection = gtk_single_selection_new(G_LIST_MODEL(model));
-    gtk_single_selection_set_autoselect(selection,TRUE);
-
-    gtk_column_view_set_model(self->column_view, GTK_SELECTION_MODEL(selection));
-
     
 
-    for (int i = 0; i<4; i++) {
-        g_print("pointer: %p\n",self->columns.col[i]);
-        GtkColumnViewColumn* col_item = rms_column_view_get_col(self,columns,i);
-        GtkListItemFactory* factory = gtk_column_view_column_get_factory(col_item);
+    self->model = create_capital_model();
+    self->selection = gtk_single_selection_new(G_LIST_MODEL(self->model));
+    gtk_single_selection_set_autoselect(self->selection,TRUE);
 
+    gtk_column_view_set_model(self->column_view, GTK_SELECTION_MODEL(self->selection));
+
+    GListModel *cols = gtk_column_view_get_columns(self->column_view);
+
+    for (guint i = 0; i < g_list_model_get_n_items (cols); i++)
+    {
+        g_autoptr (GtkColumnViewColumn) col = NULL;
+        GtkListItemFactory *factory;
+
+        col = g_list_model_get_item (cols, i);
+        factory = gtk_column_view_column_get_factory (col);
         g_signal_connect(factory, "setup", G_CALLBACK(setup_cb),NULL);
-        g_signal_connect(factory, "bind", G_CALLBACK(rms_column_view_get_func(self, columns, i)),NULL);
+        g_signal_connect_swapped(factory, "bind", G_CALLBACK(get_bind(self->bind, i)),self->root_window);
     }
-
-}
-
-/* End */
-
-static void
-rms_page_people_init (RmsPagePeople *self)
-{
-    gtk_widget_init_template (GTK_WIDGET (self));
 
 }
 
@@ -175,8 +237,7 @@ rms_page_people_class_init (RmsPagePeopleClass *klass)
     GtkWidgetClass *wclass = GTK_WIDGET_CLASS (klass);
     GtkWindowClass *winclass = GTK_WINDOW_CLASS (klass);
     GParamFlags default_flags = G_PARAM_READWRITE | 
-                                G_PARAM_STATIC_STRINGS |
-                                G_PARAM_EXPLICIT_NOTIFY;
+                                G_PARAM_STATIC_STRINGS;
 
     oclass->constructed = rms_page_people_constructed;
     oclass->dispose = rms_page_people_dispose;
@@ -205,6 +266,7 @@ rms_page_people_class_init (RmsPagePeopleClass *klass)
     gtk_widget_class_bind_template_child (wclass, RmsPagePeople, set_data);
     gtk_widget_class_bind_template_child (wclass, RmsPagePeople, del_data);
 
+    gtk_widget_class_bind_template_child (wclass, RmsPagePeople, column_view);
 }
 
 /* public method */

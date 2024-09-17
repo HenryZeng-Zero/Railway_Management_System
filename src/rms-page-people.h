@@ -5,6 +5,8 @@
 
 G_BEGIN_DECLS
 
+extern GtkWindow *window_main;
+
 #define RMS_TYPE_PAGE_PEOPLE (rms_page_people_get_type())
 G_DECLARE_FINAL_TYPE (RmsPagePeople, rms_page_people, RMS, PAGE_PEOPLE, GtkBox)
 
