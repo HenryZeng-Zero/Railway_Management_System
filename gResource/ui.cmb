@@ -73,10 +73,10 @@
 	(5,19,"GtkCustomSorter",None,17,None,None,None,None,None,None),
 	(5,20,"GtkButton","add_data",2,None,None,None,2,None,None),
 	(5,21,"AdwButtonContent",None,20,None,None,None,None,None,None),
-	(5,24,"GtkButton","set_data",2,None,None,None,4,None,None),
-	(5,25,"AdwButtonContent",None,24,None,None,None,None,None,None),
-	(5,26,"GtkButton","del_data",2,None,None,None,2,None,None),
-	(5,27,"AdwButtonContent",None,26,None,None,None,None,None,None)
+	(5,28,"GtkButton","set_data",2,None,None,None,2,None,None),
+	(5,29,"AdwButtonContent",None,28,None,None,None,None,None,None),
+	(5,30,"GtkButton","del_data",2,None,None,None,2,None,None),
+	(5,31,"AdwButtonContent",None,30,None,None,None,None,None,None)
   </object>
   <object_property>
 	(1,27,"GtkWindow","default-height","600",None,None,None,None,None,None,None,None,None),
@@ -125,6 +125,7 @@
 	(2,2,"GtkWidget","valign","start",None,None,None,None,None,None,None,None,None),
 	(2,4,"AdwButtonContent","icon-name","list-add-symbolic",None,None,None,None,None,None,None,None,None),
 	(2,4,"AdwButtonContent","label","增加数据",None,None,None,None,None,None,None,None,None),
+	(2,5,"GtkWidget","visible","False",None,None,None,None,None,None,None,None,None),
 	(2,6,"AdwButtonContent","icon-name","error-correct-symbolic",None,None,None,None,None,None,None,None,None),
 	(2,6,"AdwButtonContent","label","修改数据",None,None,None,None,None,None,None,None,None),
 	(2,7,"GtkColumnView","show-column-separators","True",None,None,None,None,None,None,None,None,None),
@@ -201,9 +202,10 @@
 	(5,17,"GtkColumnViewColumn","title","身份信息",None,None,None,None,None,None,None,None,None),
 	(5,21,"AdwButtonContent","icon-name","list-add-symbolic",None,None,None,None,None,None,None,None,None),
 	(5,21,"AdwButtonContent","label","增加数据",None,None,None,None,None,None,None,None,None),
-	(5,25,"AdwButtonContent","icon-name","error-correct-symbolic",None,None,None,None,None,None,None,None,None),
-	(5,25,"AdwButtonContent","label","修改数据",None,None,None,None,None,None,None,None,None),
-	(5,27,"AdwButtonContent","icon-name","list-remove-symbolic",None,None,None,None,None,None,None,None,None),
-	(5,27,"AdwButtonContent","label","删除数据",None,None,None,None,None,None,None,None,None)
+	(5,28,"GtkWidget","visible","False",None,None,None,None,None,None,None,None,None),
+	(5,29,"AdwButtonContent","icon-name","error-correct-symbolic",None,None,None,None,None,None,None,None,None),
+	(5,29,"AdwButtonContent","label","修改数据",None,None,None,None,None,None,None,None,None),
+	(5,31,"AdwButtonContent","icon-name","list-remove-symbolic",None,None,None,None,None,None,None,None,None),
+	(5,31,"AdwButtonContent","label","删除数据",None,None,None,None,None,None,None,None,None)
   </object_property>
 </cambalache-project>
