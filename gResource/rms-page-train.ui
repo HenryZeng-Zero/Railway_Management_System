@@ -24,6 +24,7 @@
         </child>
         <child>
           <object class="GtkButton" id="set_data">
+            <property name="visible">False</property>
             <child>
               <object class="AdwButtonContent">
                 <property name="icon-name">error-correct-symbolic</property>
