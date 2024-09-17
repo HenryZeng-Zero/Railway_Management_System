@@ -104,7 +104,6 @@ rms_window_init (RmsWindow *self)
         GtkWidget* page = pages[i].page_new();
         GtkWidget* label = gtk_label_new(pages[i].label);
         
-        g_object_set(page, "root-window", self, NULL);
         self->page_data[i] = page;
 
         gtk_notebook_append_page(self->page_split, page, label);
