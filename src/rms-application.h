@@ -6,6 +6,7 @@
 G_BEGIN_DECLS
 
 extern gchar* APPLICATION_NAME;
+extern GtkWindow *window_main;
 
 #define RMS_TYPE_APPLICATION (rms_application_get_type())
 G_DECLARE_FINAL_TYPE (RmsApplication, rms_application, RMS, APPLICATION, AdwApplication)

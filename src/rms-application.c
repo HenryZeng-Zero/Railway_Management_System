@@ -2,6 +2,8 @@
 #include "gResource.h"
 #include "rms-window.h"
 
+GtkWindow *window_main;
+
 struct _RmsApplication {
     AdwApplication parent_instance;
 };
@@ -13,11 +15,11 @@ G_DEFINE_TYPE (RmsApplication, rms_application, ADW_TYPE_APPLICATION)
 static void
 rms_application_activate (GApplication *app)
 {
-    GtkWindow *window = rms_window_new(GTK_APPLICATION (app));
+    window_main = rms_window_new(GTK_APPLICATION (app));
     
-    gtk_window_set_title(window, APPLICATION_NAME);
-    gtk_window_set_default_size(window, 1200, 600);
-    gtk_window_present (window);
+    gtk_window_set_title(window_main, APPLICATION_NAME);
+    gtk_window_set_default_size(window_main, 1200, 600);
+    gtk_window_present (window_main);
 }
 
 static void
