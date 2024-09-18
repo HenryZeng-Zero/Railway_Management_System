@@ -71,16 +71,16 @@ model_people_set_ById(ModelPeople* self,int id,const char* value)
 {
     switch (id) {
         case MODEL_PEOPLE_NAME:
-            strcpy(self->name, value);
+            self->name = g_strdup(value);
         break;
         case MODEL_PEOPLE_TRAIN:
-            strcpy(self->train, value);
+            self->train = g_strdup(value);
         break;
         case MODEL_PEOPLE_TO:
-            strcpy(self->to, value);
+            self->to = g_strdup(value);
         break;
         case MODEL_PEOPLE_SIGN:
-            strcpy(self->sign, value);
+            self->sign = g_strdup(value);
         break;
     }
 }

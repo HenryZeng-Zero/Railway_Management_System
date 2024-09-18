@@ -23,7 +23,7 @@ model_people_new();
 ModelPeople * model_people_new_with_values(const char *name,
                 const char *train,
                 const char *to,
-                const char *sign)
+                const char *sign);
 
 const char* 
 model_people_get_ById(ModelPeople* self,int id);
