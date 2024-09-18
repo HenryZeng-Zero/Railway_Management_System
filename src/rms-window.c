@@ -43,6 +43,19 @@ rms_window_page_split_switch_page_##num(RmsWindow *self) \
 rms_window_page_split_switch_gen(0)
 rms_window_page_split_switch_gen(1)
 
+
+static void
+rms_window_save(RmsWindow *self){
+    rms_page_train_save(RMS_PAGE_TRAIN(self->page_data[0]));
+    rms_page_people_save(RMS_PAGE_PEOPLE(self->page_data[1]));
+}
+
+static void
+rms_window_load(RmsWindow *self){
+    rms_page_train_load(RMS_PAGE_TRAIN(self->page_data[0]));
+    rms_page_people_load(RMS_PAGE_PEOPLE(self->page_data[1]));
+}
+
 static void
 rms_window_constructed(GObject *gobject){
     RmsWindow *self = RMS_WINDOW(gobject);
@@ -69,11 +82,11 @@ rms_window_constructed(GObject *gobject){
                             self);
 
     g_signal_connect_swapped(self->save_info, "clicked",
-                            G_CALLBACK(rms_window_page_split_switch_page_1),
+                            G_CALLBACK(rms_window_save),
                             self);
 
     g_signal_connect_swapped(self->load_info, "clicked",
-                            G_CALLBACK(rms_window_page_split_switch_page_1),
+                            G_CALLBACK(rms_window_load),
                             self);
 }
 
