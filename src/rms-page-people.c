@@ -67,32 +67,6 @@ rms_page_train_get_property(GObject *object,
     }
 }
 
-// def create_advanced_dialog(*_args):
-//     dialog = Adw.AlertDialog(
-//         heading="Login",
-//         body="A valid password is needed to continue",
-//         close_response="cancel",
-//     )
-
-//     dialog.add_response("cancel", "Cancel")
-//     dialog.add_response("login", "Login")
-
-//     # Use SUGGESTED appearance to mark important responses such as the affirmative action
-//     dialog.set_response_appearance("login", Adw.ResponseAppearance.SUGGESTED)
-
-//     entry = Gtk.PasswordEntry(show_peek_icon=True)
-//     dialog.set_extra_child(entry)
-
-//     dialog.choose(workbench.window, None, on_response_selected_advanced)
-
-// def on_response_selected_advanced(_dialog, task):
-//     response = _dialog.choose_finish(task)
-//     entry = _dialog.get_extra_child()
-//     if response == "login":
-//         print(f'Selected "{response}" response with password "{entry.get_text()}"')
-//     else:
-//         print(f'Selected "{response}" response.')
-
 static void
 rms_page_people_add_data_choose(GObject* dialog, GAsyncResult* result,gpointer user_data)
 {
@@ -100,21 +74,29 @@ rms_page_people_add_data_choose(GObject* dialog, GAsyncResult* result,gpointer u
     GtkEntry *entry;
     const char* response;
     GtkEntryBuffer* buffer;
-    const char* str;
-    char* strs[4][30];
+    char* str;
     ModelPeople* item;
+    char* str_tmp;
 
     response = adw_alert_dialog_choose_finish(ADW_ALERT_DIALOG(dialog), result);
     entry = GTK_ENTRY(adw_alert_dialog_get_extra_child(ADW_ALERT_DIALOG(dialog)));
     buffer = gtk_entry_get_buffer(entry);
-    str = gtk_entry_buffer_get_text(buffer);
+    str = g_strdup(gtk_entry_buffer_get_text(buffer));
 
     if(strcmp(response, "select") == 0){
-        for (int index; index < strlen(str); index++) {
-            
-        }
+        str_tmp = strtok(str, ",");
         item = model_people_new();
-        g_list_store_append(G_LIST_STORE(self->model), );
+        int count = 0;
+
+        do {
+            model_people_set_ById(item, count, str_tmp);
+            str_tmp = strtok(NULL, ",");
+            count++;
+        }while (str_tmp);
+
+        if (count == 4) {
+            g_list_store_append(G_LIST_STORE(self->model), item);
+        }
     } 
 }
 
@@ -142,15 +124,10 @@ rms_page_people_add_data(GtkWidget *self)
                            rms_page_people_add_data_choose, self);
 }
 
-GListModel * create_capital_model(void)
+static GListModel*
+rms_create_model(void)
 {
     GListStore *store = g_list_store_new(G_TYPE_OBJECT);
-    
-    g_list_store_append(store, model_people_new("Washington,D.C.","USA","1790","712,816"));
-    g_list_store_append(store, model_people_new("London","Britain","43","8,799,800"));
-    g_list_store_append(store, model_people_new("Paris","France","3rd c. BC","2,161,000"));
-    g_list_store_append(store, model_people_new("Berlin","Germany","13th century","3,850,809"));
-    g_list_store_append(store, model_people_new("Rome","Italy","753 BC","2,860,009"));
 
     return G_LIST_MODEL(store);
 }
@@ -199,9 +176,7 @@ rms_page_people_constructed(GObject *gobject){
     /* 调用父类<加载完成后初始化>函数 */
     G_OBJECT_CLASS(rms_page_people_parent_class)->constructed(gobject);
 
-    
-
-    self->model = create_capital_model();
+    self->model = rms_create_model();
     self->selection = gtk_single_selection_new(G_LIST_MODEL(self->model));
     gtk_single_selection_set_autoselect(self->selection,TRUE);
 
@@ -287,4 +262,68 @@ GtkWindow*
 rms_page_people_get_root_window(RmsPagePeople *self)
 {
     return self->root_window;
+}
+
+void rms_page_people_save(RmsPagePeople *self)
+{
+    FILE *fp;
+    fp = fopen("people.txt","w");
+    if(fp==NULL){
+        return;
+    }
+
+    for (int i = 0; i < g_list_model_get_n_items(self->model); i++) {
+        ModelPeople *item = g_list_model_get_item(self->model, i);
+        fprintf(fp,"%s,%s,%s,%s\n", model_people_get_ById(item, 0),
+                                                model_people_get_ById(item, 1),
+                                                model_people_get_ById(item, 2),
+                                                model_people_get_ById(item, 3));
+    }
+
+    fclose(fp);
+}
+void rms_page_people_load(RmsPagePeople *self)
+{
+    FILE *fp;
+    char buffer[500];
+    char *str_tmp;
+    char *status;
+    ModelPeople* item;
+    
+    fp = fopen("people.txt","r");
+    if(fp==NULL){
+        return;
+    }
+
+    g_list_store_remove_all(G_LIST_STORE(self->model));
+
+    while (!feof(fp)) {
+        status = fgets(buffer, 500, fp);
+
+        if (status == NULL) {
+            return;
+        }
+
+        str_tmp = strtok(buffer, ",");
+        item = model_people_new();
+        int count = 0;
+
+        do {
+            int last = strlen(str_tmp) - 1;
+            if(str_tmp[last] == '\n') {
+                str_tmp[last] = '\0';
+            }
+
+            model_people_set_ById(item, count, str_tmp);
+            str_tmp = strtok(NULL, ",");
+            
+            count++;
+        }while (str_tmp);
+
+        if (count == 4) {
+            g_list_store_append(G_LIST_STORE(self->model), item);
+        }
+    }
+
+    fclose(fp);
 }

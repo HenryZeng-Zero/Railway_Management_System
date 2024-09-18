@@ -20,4 +20,7 @@ rms_page_people_set_root_window(RmsPagePeople *self, GtkWindow *root_window);
 GtkWindow*
 rms_page_people_get_root_window(RmsPagePeople *self);
 
+void rms_page_people_save(RmsPagePeople *self);
+void rms_page_people_load(RmsPagePeople *self);
+
 G_END_DECLS
