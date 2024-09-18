@@ -106,6 +106,7 @@
 	(1,35,"GtkWidget","css-classes","pill",None,None,None,None,None,None,None,None,None),
 	(1,35,"GtkWidget","halign","center",None,None,None,None,None,None,None,None,None),
 	(1,35,"GtkWidget","margin-bottom","10",None,None,None,None,None,None,None,None,None),
+	(1,35,"GtkWidget","visible","False",None,None,None,None,None,None,None,None,None),
 	(1,36,"GtkButton","label","保存记录",None,None,None,None,None,None,None,None,None),
 	(1,36,"GtkWidget","css-classes","pill",None,None,None,None,None,None,None,None,None),
 	(1,36,"GtkWidget","halign","center",None,None,None,None,None,None,None,None,None),
