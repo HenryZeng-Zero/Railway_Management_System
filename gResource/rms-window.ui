@@ -50,6 +50,7 @@
                     <property name="halign">center</property>
                     <property name="label">查询信息</property>
                     <property name="margin-bottom">10</property>
+                    <property name="visible">False</property>
                   </object>
                 </child>
                 <child>
