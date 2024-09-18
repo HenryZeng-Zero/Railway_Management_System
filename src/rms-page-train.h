@@ -5,6 +5,8 @@
 
 G_BEGIN_DECLS
 
+extern GtkWindow *window_main;
+
 #define RMS_TYPE_PAGE_TRAIN (rms_page_train_get_type())
 G_DECLARE_FINAL_TYPE (RmsPageTrain, rms_page_train, RMS, PAGE_TRAIN, GtkBox)
 
@@ -17,5 +19,8 @@ rms_page_train_set_root_window(RmsPageTrain *self, GtkWindow *root_window);
 
 GtkWindow*
 rms_page_train_get_root_window(RmsPageTrain *self);
+
+void rms_page_train_save(RmsPageTrain *self);
+void rms_page_train_load(RmsPageTrain *self);
 
 G_END_DECLS
